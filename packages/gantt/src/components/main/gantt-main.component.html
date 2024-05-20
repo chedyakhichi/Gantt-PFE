@@ -1,0 +1,37 @@
+<gantt-links-overlay [flatItems]="flatItems" (lineClick)="lineClick.emit($event)"></gantt-links-overlay>
+<div class="gantt-main-groups" [style.width.px]="ganttUpper.view.width">
+  <ng-container *ngFor="let data of viewportItems; trackBy: trackBy">
+    <div class="gantt-group" [style.height.px]="ganttUpper.styles.lineHeight" [ngClass]="data.class" *ngIf="data.items">
+      <ng-template [ngTemplateOutlet]="groupHeaderTemplate" [ngTemplateOutletContext]="{ group: data }"></ng-template>
+    </div>
+    <div
+      *ngIf="!data.items"
+      class="gantt-item"
+      [style.height.px]="ganttUpper.styles.lineHeight"
+      [class.gantt-main-item-active]="ganttUpper.isSelected(data.id)"
+    >
+      <ng-container *ngIf="data.type | isGanttCustomItem">
+        <ng-template
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{
+            item: data.origin,
+            refs: data.refs,
+            baseline: ganttUpper.baselineItemsMap[data.id]?.origin,
+            baselineRefs: ganttUpper.baselineItemsMap[data.id]?.refs
+          }"
+        >
+        </ng-template>
+      </ng-container>
+
+      <ng-container *ngIf="(data.type | isGanttRangeItem) || (data.type | isGanttBarItem)">
+        <gantt-range *ngIf="data.type | isGanttRangeItem" [template]="rangeTemplate" [item]="data"></gantt-range>
+        <gantt-bar *ngIf="data.type | isGanttBarItem" [item]="data" [template]="barTemplate" (barClick)="barClick.emit($event)"></gantt-bar>
+        <gantt-baseline
+          *ngIf="ganttUpper.baselineItemsMap[data.id]"
+          [baselineItem]="ganttUpper.baselineItemsMap[data.id]"
+          [template]="baselineTemplate"
+        ></gantt-baseline>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>

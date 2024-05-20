@@ -1,0 +1,31 @@
+<div style="line-height: 30px; padding: 15px; display: flex">
+  <div style="flex: 1">
+    <span class="text-primary">NgxGant</span> <span class="text-primary">ngx-gantt-root</span>、<span class="text-primary"
+      >ngx-gantt-bar</span
+    >
+    Gantt
+    <br />
+  </div>
+  <div style="padding-right: 15px">
+    <a href="https://github.com/worktile/ngx-gantt/blob/master/example/src/app/gantt-advanced" target="_blank">Afficher le code source </a>
+  </div>
+</div>
+<thy-layout>
+  <thy-content>
+    <app-gantt-flat
+      #gantt
+      [items]="items"
+      [groups]="groups"
+      [viewType]="options.viewType"
+      [draggable]="options.draggable"
+      [styles]="options.styles"
+    >
+      <ng-template #group let-group="group">
+        {{ group.title }}
+      </ng-template>
+      <ng-template #bar let-item="item">
+        <span style="color: #fff">&nbsp;&nbsp;{{ item.title }}</span>
+      </ng-template>
+    </app-gantt-flat>
+  </thy-content>
+</thy-layout>

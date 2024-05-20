@@ -1,0 +1,70 @@
+<div class="gantt-demo-header">
+  <div class="header-section">
+    <span class="header-section-title">voir:</span>
+    <span class="header-section-content">
+      <input id="day" type="radio" value="day" name="view-type" [(ngModel)]="options.viewType" /> <label for="day">jour</label>
+      <input id="month" type="radio" value="month" name="view-type" [(ngModel)]="options.viewType" /> <label for="month">mois</label>
+      <input id="quarter" type="radio" value="quarter" name="view-type" [(ngModel)]="options.viewType" />
+      <label for="quarter">années</label>
+    </span>
+  </div>
+  <div class="header-section">
+    <span class="header-section-title">S'il peut être déplacé :</span>
+    <span class="header-section-content">
+      <input type="checkbox" [(ngModel)]="options.draggable" />
+    </span>
+  </div>
+
+  <div class="header-section">
+    <span class="header-section-content">
+      <button (click)="gantt.expandAll()">Développer tout</button>
+    </span>
+  </div>
+  <div class="header-section">
+    <span class="header-section-content">
+      <button (click)="gantt.collapseAll()">Tout réduire</button>
+    </span>
+  </div>
+  <div class="header-section">
+    <span class="header-section-content">
+      <button (click)="print('gantt-range')">Exporter sous forme d'image</button>
+    </span>
+  </div>
+</div>
+<div class="gantt-demo-content">
+  <ngx-gantt
+    #gantt
+    start="1514736000"
+    end="1609430400"
+    [items]="items"
+    [viewType]="options.viewType"
+    [draggable]="options.draggable"
+    [async]="options.async"
+    [childrenResolve]="options.childrenResolve"
+    (barClick)="barClick($event)"
+    (dragEnded)="dragEnded($event)"
+    (loadOnScroll)="loadOnScroll($event)"
+  >
+    <ngx-gantt-table>
+      <ngx-gantt-column name="titre">
+        <ng-template #cell let-item="item">
+          {{ item.title }}
+        </ng-template>
+      </ngx-gantt-column>
+      <ngx-gantt-column>
+        <ng-template #header> <span style="font-weight: bold">Heure de départ </span> </ng-template>
+        <ng-template #cell let-item="item">
+          {{ item.start * 1000 | date : 'yyyy-MM-dd' }}
+        </ng-template>
+      </ngx-gantt-column>
+      <ngx-gantt-column
+        name="date limite
+      "
+      >
+        <ng-template #cell let-item="item">
+          {{ item.end * 1000 | date : 'yyyy-MM-dd' }}
+        </ng-template>
+      </ngx-gantt-column>
+    </ngx-gantt-table>
+  </ngx-gantt>
+</div>
